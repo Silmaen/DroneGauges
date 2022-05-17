@@ -10,7 +10,10 @@
 #include <QApplication>
 #include <QPushButton>
 
-namespace dg {
+/**
+ * @brief User interface library
+ */
+namespace dg::ui {
 	class Application : public QApplication {
 	public:
 		Application(int argc, char **argv) : QApplication(argc, argv) {

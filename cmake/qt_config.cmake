@@ -19,7 +19,7 @@ find_package(Qt${DG_QT_VERSION} COMPONENTS ${DG_QT_LIBS} REQUIRED)
 
 function(dg_target_add_qt PROJECT_ID)
     foreach (QT_LIB ${DG_QT_LIBS})
-        target_link_libraries(${PROJECT_ID} Qt::${QT_LIB})
+        target_link_libraries(${PROJECT_ID} PUBLIC Qt::${QT_LIB})
     endforeach (QT_LIB)
 
     if (WIN32)
@@ -35,13 +35,13 @@ function(dg_target_add_qt PROJECT_ID)
             endif ()
         endif ()
         if (EXISTS "${DG_QT_PREFIX_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            add_custom_command(TARGET ${PROJECT_ID} POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E make_directory
-                    "$<TARGET_FILE_DIR:${PROJECT_NAME}>/platforms/")
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                    "$<TARGET_FILE_DIR:${PROJECT_ID}>/platforms/")
+            add_custom_command(TARGET ${PROJECT_ID} POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy
                     "${DG_QT_PREFIX_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
-                    "$<TARGET_FILE_DIR:${PROJECT_NAME}>/platforms/")
+                    "$<TARGET_FILE_DIR:${PROJECT_ID}>/platforms/")
         endif ()
         foreach (QT_LIB ${DG_QT_LIBS})
             add_custom_command(TARGET ${PROJECT_ID} POST_BUILD

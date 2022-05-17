@@ -1,34 +1,59 @@
+#
+# Base CMake for Drone gauges project
+#
 cmake_minimum_required(VERSION 3.22)
 
-set(PRJPREFIX DG)
-set(PRJPREFIX_LOWER dg)
+# ----------------------------------------------------------------------------------------------------------------------
+# project definition
+project(DroneGauges VERSION 1.0
+        DESCRIPTION "Drone Telemetry gauges application"
+        LANGUAGES CXX)
+# ----------------------------------------------------------------------------------------------------------------------
 
-set(${PRJPREFIX}_PROJECT DroneGauges)
+# ----------------------------------------------------------------------------------------------------------------------
+# Core Library
+set(CMAKE_CXX_STANDARD 20 CACHE STRING "The C++ standard to use")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+include(CheckIPOSupported)
+check_ipo_supported(RESULT result)
+if(result)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
+endif()
+include(cmake/compiler_config.cmake)
+include(cmake/qt_config.cmake)
+# ----------------------------------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Core Library
+add_library(DroneGaugesCore SHARED
+        Source/DroneGaugesCore/include/base.h
+        Source/DroneGaugesCore/src/base.cpp
+        )
+target_include_directories(DroneGaugesCore PUBLIC Source/DroneGaugesCore/include)
+# ----------------------------------------------------------------------------------------------------------------------
 
-project(${${PRJPREFIX}_PROJECT} CXX)
-set(CMAKE_CXX_STANDARD 20)
+# ----------------------------------------------------------------------------------------------------------------------
+# UI Library
+add_library(DroneGaugesUi SHARED
+        Source/DroneGaugesUI/include/application.h
+        Source/DroneGaugesUI/src/application.cpp
+        )
+add_dependencies(DroneGaugesUi DroneGaugesCore)
+target_include_directories(DroneGaugesUi PUBLIC Source/DroneGaugesUi/include)
+target_link_libraries(DroneGaugesUi PUBLIC DroneGaugesCore)
+dg_target_add_qt(DroneGaugesUi)
+# ----------------------------------------------------------------------------------------------------------------------
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-include(compiler_config)
-include(qt_config)
-
-# Main Applicvation
-file(GLOB_RECURSE DG_SOURCE_FILES Source/main.cpp)
-add_executable(${${PRJPREFIX}_PROJECT} ${DG_SOURCE_FILES})
-
-# UI lib
-file(GLOB_RECURSE ${PRJPREFIX}_SOURCE_FILES_UI Source/${${PRJPREFIX}_PROJECT}UI/*)
-add_library(${${PRJPREFIX}_PROJECT}_ui SHARED ${${PRJPREFIX}_SOURCE_FILES_UI})
-add_dependencies(${${PRJPREFIX}_PROJECT} ${${PRJPREFIX}_PROJECT}_ui)
-dg_target_add_qt(${${PRJPREFIX}_PROJECT}_ui)
-target_include_directories(${${PRJPREFIX}_PROJECT}_ui PUBLIC Source/${${PRJPREFIX}_PROJECT}UI/include)
-
-# core Lib
-file(GLOB_RECURSE DG_SOURCE_FILES_CORE Source/${${PRJPREFIX}_PROJECT}Core/*.cpp)
-
-add_library(${${PRJPREFIX}_PROJECT}_core SHARED ${${PRJPREFIX}_SOURCE_FILES_CORE})
-target_include_directories(${${PRJPREFIX}_PROJECT}_core PUBLIC Source/${${PRJPREFIX}_PROJECT}Core/include)
-add_dependencies(${${PRJPREFIX}_PROJECT}_ui ${${PRJPREFIX}_PROJECT}_core)
-
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Main executable
+add_executable(DroneGauges Source/main.cpp)
+add_dependencies(DroneGauges DroneGaugesUi)
+target_include_directories(DroneGauges PUBLIC Source/DroneGaugesUI/include)
+target_link_libraries(DroneGauges PUBLIC DroneGaugesUi)
+# ----------------------------------------------------------------------------------------------------------------------
