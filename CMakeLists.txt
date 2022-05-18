@@ -11,43 +11,36 @@ project(DroneGauges VERSION 1.0
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Core Library
-set(CMAKE_CXX_STANDARD 20 CACHE STRING "The C++ standard to use")
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-include(CheckIPOSupported)
-check_ipo_supported(RESULT result)
-if(result)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-endif()
-find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM)
-    set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
-endif()
-include(cmake/compiler_config.cmake)
-include(cmake/qt_config.cmake)
+# Base Definitions
+
+include(CMakeDependentOption)           # This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
+include(GNUInstallDirs)                 # This will define the default values for installation directories (all platforms even if named GNU)
+include(InstallRequiredSystemLibraries) # Tell CMake that the `install` target needs to install required system libraries (eg: Windows SDK)
+include(CMakePackageConfigHelpers)      # Helper to create relocatable packages
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake") # Make our cmake scripts available
+
+include(compiler_config)
+include(qt_config)
+include(coverage_utils)
+
+# It is always easier to navigate in an IDE when projects are organized in folders.
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+# ----------------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Third party
+add_subdirectory(Library)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Core Library
-add_library(DroneGaugesCore SHARED
-        Source/DroneGaugesCore/include/base.h
-        Source/DroneGaugesCore/src/base.cpp
-        )
-target_include_directories(DroneGaugesCore PUBLIC Source/DroneGaugesCore/include)
+add_subdirectory(Source/DroneGaugesCore)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
 # UI Library
-add_library(DroneGaugesUi SHARED
-        Source/DroneGaugesUI/include/application.h
-        Source/DroneGaugesUI/src/application.cpp
-        )
-add_dependencies(DroneGaugesUi DroneGaugesCore)
-target_include_directories(DroneGaugesUi PUBLIC Source/DroneGaugesUi/include)
-target_link_libraries(DroneGaugesUi PUBLIC DroneGaugesCore)
-dg_target_add_qt(DroneGaugesUi)
+add_subdirectory(Source/DroneGaugesUi)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -57,3 +50,14 @@ add_dependencies(DroneGauges DroneGaugesUi)
 target_include_directories(DroneGauges PUBLIC Source/DroneGaugesUI/include)
 target_link_libraries(DroneGauges PUBLIC DroneGaugesUi)
 # ----------------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Documentation
+add_subdirectory(documentation)
+# ----------------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Test
+add_subdirectory(tests)
+# ----------------------------------------------------------------------------------------------------------------------
+

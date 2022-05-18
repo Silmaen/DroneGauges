@@ -10,8 +10,9 @@
 
 /**
  * @namespace dg
- * @brief base namespace for DroneGauges project
+ * @brief Base namespace for DroneGauges project
  */
+
  /**
   * @brief Core library namespace
   */

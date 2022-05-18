@@ -7,3 +7,29 @@
  */
 
 #include "application.h"
+#include <QCommandLineParser>
+
+using namespace std::filesystem;
+
+namespace dg::ui {
+Application::Application(int argc, char** argv):
+    QApplication(argc, argv) {
+
+    // retrieve the root path of the application
+    QCommandLineParser parser;
+    parser.setApplicationDescription(QCoreApplication::applicationName());
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.process(*this);
+    rootPath= absolute(path(argv[0])).parent_path();
+
+    // defines a dummy button
+    QPushButton button("Hello world!", nullptr);
+    button.resize(200, 100);
+    button.show();
+}
+
+Application::~Application() {
+}
+
+}
