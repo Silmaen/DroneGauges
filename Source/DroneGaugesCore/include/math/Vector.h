@@ -7,7 +7,11 @@
  */
 
 #pragma once
+#include "base/base.h"
 
+/**
+ * @brief Math namespace
+ */
 namespace dg::core::math {
 
 /**
@@ -29,7 +33,8 @@ public:
      * @param _y Second coordinate
      * @param _z Third coordinate
      */
-    Vector(const double& _x=0,const double& _y=0,const double& _z=0):x{_x},y{_y},z{_z}{}
+    Vector(const double& _x= 0, const double& _y= 0, const double& _z= 0):
+        x{_x}, y{_y}, z{_z} {}
     /**
      * @brief Default copy assignation
      * @return this
@@ -49,16 +54,16 @@ public:
      * @param other Vector to compare
      * @return True if same vectors
      */
-    bool operator==(const Vector& other)const{
-        return x==other.x && y==other.y && z==other.z;
+    bool operator==(const Vector& other) const {
+        return base::isEqual(x, other.x) && base::isEqual(y, other.y) && base::isEqual(z, other.z);
     }
     /**
      * @brief Comparison operator
      * @param other Vector to compare
      * @return True if different vectors
      */
-    bool operator!=(const Vector& other)const{
-        return x!=other.x || y!=other.y || z!=other.z;
+    bool operator!=(const Vector& other) const {
+        return !base::isEqual(x, other.x) || !base::isEqual(y, other.y) || base::isEqual(z, other.z);
     }
 
     /**
@@ -100,7 +105,7 @@ public:
     * @param other Vector to add
     * @return Updated vector
     */
-    Vector operator+(const Vector& other) const{
+    Vector operator+(const Vector& other) const {
         Vector vec(*this);
         vec+= other;
         return vec;
@@ -110,7 +115,7 @@ public:
     * @param other Vector to sub
     * @return Updated vector
     */
-    Vector operator-(const Vector& other) const{
+    Vector operator-(const Vector& other) const {
         Vector vec(*this);
         vec-= other;
         return vec;

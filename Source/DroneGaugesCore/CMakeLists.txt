@@ -3,10 +3,10 @@
 #
 # define the library as Shared
 add_library(DroneGaugesCore SHARED
-        include/base.h
-        include/Vector.h
-        src/base.cpp
-        src/Vector.cpp )
+        include/base/base.h
+        include/math/Vector.h
+        src/base/base.cpp
+        src/math/Vector.cpp)
 #
 # Public includes: apply to this projet AND to the dependent ones
 target_include_directories(DroneGaugesCore PUBLIC include)

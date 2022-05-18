@@ -6,4 +6,7 @@
  * All modification must get authorization from the author.
  */
 
-#include "base.h"
+#include "base/base.h"
+namespace dg::core::base {
+
+}// namespace dg::core::base

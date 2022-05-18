@@ -3,6 +3,7 @@
 
 add_executable(DroneGaugesCore_UnitTest
         src/vector_test.cpp
+        src/base_test.cpp
         )
 target_link_libraries(DroneGaugesCore_UnitTest PRIVATE DroneGaugesCore gtest gtest_main)
 

@@ -6,11 +6,19 @@
  * All modification must get authorization from the author.
  */
 
+#include "math/Vector.h"
 #include "gtest/gtest.h"
-#include "Vector.h"
 
-TEST(Vector, Base){
-    dg::core::math::Vector f;
-    EXPECT_EQ(f, dg::core::math::Vector(0,0,0));
+using namespace dg::core::math;
 
+TEST(Vector, Base) {
+    Vector f;
+    EXPECT_TRUE(f == Vector(0, 0, 0));
+    EXPECT_FALSE(f == Vector(0, 1, 0));
+    EXPECT_FALSE(f == Vector(0, 0, 1));
+    EXPECT_FALSE(f == Vector(1, 0, 0));
+    // EXPECT_FALSE(f != Vector(0, 0, 0));
+    //EXPECT_TRUE(f != Vector(0, 1, 0));
+    //EXPECT_TRUE(f != Vector(0, 0, 1));
+    // EXPECT_TRUE(f != Vector(1, 0, 0));
 }

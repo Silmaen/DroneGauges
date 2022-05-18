@@ -6,7 +6,7 @@
  * All modification must get authorization from the author.
  */
 
-#include "Vector.h"
+#include "math/Vector.h"
 
 namespace dg {
 namespace core {
