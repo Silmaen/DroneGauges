@@ -7,7 +7,7 @@
  */
 
 #include "base/base.h"
-#include "gtest/gtest.h"
+#include "CoreTestHelper.h"
 
 using namespace dg::core::base;
 
@@ -20,4 +20,8 @@ TEST(Base, FloatOperation) {
     EXPECT_FALSE(isEqual(-0.1, 0));
     EXPECT_TRUE(isEqual(100, 100));
     EXPECT_FALSE(isEqual(100, 101));
+    EXPECT_TRUE(isEqualA(100, 100));
+    EXPECT_FALSE(isEqualA(100, 101));
+    EXPECT_TRUE(isEqualR(100, 100));
+    EXPECT_FALSE(isEqualR(100, 101));
 }

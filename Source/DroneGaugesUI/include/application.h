@@ -9,6 +9,7 @@
 
 #include <QApplication>
 #include <QPushButton>
+#include <QCommandLineParser>
 #include <filesystem>
 
 /**
