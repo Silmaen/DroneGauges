@@ -13,7 +13,7 @@ function(enable_test_report)
     FetchContent_MakeAvailable(googletest)
     add_library(GTest::GTest INTERFACE IMPORTED)
     target_link_libraries(GTest::GTest INTERFACE gtest_main)
-    if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+    if (${DG_COMPILER} STREQUAL "clang")
         target_compile_options(gtest PUBLIC
                 -Wno-undef
                 -Wno-reserved-identifier
@@ -48,9 +48,13 @@ function(enable_test_report)
                 -Wno-weak-vtables
                 -Wno-unused-member-function
                 )
-    elseif (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
+    elseif (${DG_COMPILER} STREQUAL "gcc")
         target_compile_options(gtest PRIVATE
                 -Wno-deprecated
+                )
+    elseif (${DG_COMPILER} STREQUAL "clang-cl")
+        target_compile_definitions(gtest PRIVATE
+                _SILENCE_CLANG_CONCEPTS_MESSAGE
                 )
     endif ()
 
@@ -79,19 +83,7 @@ function(enable_test_report)
             message(FATAL_ERROR "gcovr: Too old version of gcovr, minimum required is 5.0")
         endif ()
     endif ()
-    # options for coverage
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-        add_compile_options(--coverage)
-        link_libraries(gcov)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        add_compile_options(--coverage)
-        add_link_options(--coverage)
-        get_filename_component(COMPILER_PATH ${CMAKE_CXX_COMPILER} DIRECTORY)
-        set(${PRJPREFIX}_GCOV "${COMPILER_PATH}/llvm-cov gcov")
-        if (WIN32)
-            string(REPLACE "/" "\\\\" ${PRJPREFIX}_GCOV ${${PRJPREFIX}_GCOV})
-        endif ()
-    endif ()
+
 endfunction()
 
 #

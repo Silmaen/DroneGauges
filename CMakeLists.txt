@@ -30,6 +30,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # base packaging configuration
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/Install)
 # ----------------------------------------------------------------------------------------------------------------------
 

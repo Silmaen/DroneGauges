@@ -45,7 +45,7 @@ TEST(Vector, Access) {
     EXPECT_EQ(999, f2[2]);
     EXPECT_EQ(999, f2[3]);
 }
-/*
+
 TEST(Vector, Products) {
     Vector f(1, 2, 3);
     Vector f2(4, 5, 6);
@@ -58,6 +58,9 @@ TEST(Vector, Products) {
 
 TEST(Vector, Norms) {
     Vector f(1, 2, 3);
-    EXPECT_EQ(f.norm(), 16);
+    EXPECT_TRUE(dg::core::base::isEqual(f.norm(), 3.7416573867739413));
+    Vector fn= f.normalized();
+    EXPECT_TRUE(dg::core::base::isEqual(fn.norm(), 1.0));
+    f.normalize();
+    EXPECT_EQ(fn, f);
 }
-*/

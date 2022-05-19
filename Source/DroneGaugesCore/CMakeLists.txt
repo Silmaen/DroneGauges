@@ -2,7 +2,7 @@
 # Core Library
 #
 # define the library as Shared
-add_library(DroneGaugesCore SHARED
+add_library(DroneGaugesCore ${DG_LIB_TYPE}
         include/base/base.h
         include/math/Vector.h
         src/base/base.cpp

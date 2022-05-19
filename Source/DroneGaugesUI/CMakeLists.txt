@@ -2,7 +2,7 @@
 # UI Library
 #
 # define the library as Shared
-add_library(DroneGaugesUi SHARED
+add_library(DroneGaugesUi ${DG_LIB_TYPE}
         include/application.h
         src/application.cpp
         )
