@@ -8,6 +8,8 @@ function(enable_test_report)
             GIT_REPOSITORY https://github.com/google/googletest.git
             GIT_TAG release-1.11.0
     )
+    set(BUILD_GMOCK OFF)
+    set(INSTALL_GTEST OFF)
     FetchContent_MakeAvailable(googletest)
     add_library(GTest::GTest INTERFACE IMPORTED)
     target_link_libraries(GTest::GTest INTERFACE gtest_main)

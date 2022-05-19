@@ -21,4 +21,7 @@ target_include_directories(DroneGaugesUi PRIVATE includePrivate)
 target_link_libraries(DroneGaugesUi PRIVATE DroneGaugesCore)
 # adding the support for QT
 dg_target_add_qt(DroneGaugesUi)
+
+
+install(TARGETS DroneGaugesUi RUNTIME DESTINATION bin)
 # ----------------------------------------------------------------------------------------------------------------------

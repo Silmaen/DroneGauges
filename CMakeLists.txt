@@ -29,6 +29,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
+# base packaging configuration
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/Install)
+# ----------------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Third party
 add_subdirectory(Library)
 # ----------------------------------------------------------------------------------------------------------------------
@@ -49,6 +54,7 @@ add_executable(DroneGauges Source/main.cpp)
 add_dependencies(DroneGauges DroneGaugesUi)
 target_include_directories(DroneGauges PUBLIC Source/DroneGaugesUI/include)
 target_link_libraries(DroneGauges PUBLIC DroneGaugesUi)
+install(TARGETS DroneGauges RUNTIME DESTINATION bin)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -61,3 +67,15 @@ add_subdirectory(documentation)
 add_subdirectory(tests)
 # ----------------------------------------------------------------------------------------------------------------------
 
+if (WIN32)
+    set(CPACK_GENERATOR ZIP)
+    set(CPACK_BINARY_ZIP ON)
+    set(CPACK_BINARY_NSIS OFF)
+else ()
+    set(CPACK_GENERATOR TGZ)
+endif ()
+include(CPack)
+
+add_custom_target(Package
+        COMMAND ${CMAKE_CPACK_COMMAND}
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR})

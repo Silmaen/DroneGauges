@@ -14,5 +14,7 @@ target_include_directories(DroneGaugesCore PUBLIC include)
 target_include_directories(DroneGaugesCore INTERFACE interface)
 # Private includes: apply to this project only
 target_include_directories(DroneGaugesCore PRIVATE includePrivate)
+
+install(TARGETS DroneGaugesCore RUNTIME DESTINATION bin)
 #
 # ----------------------------------------------------------------------------------------------------------------------

@@ -49,6 +49,8 @@ function(dg_target_add_qt PROJECT_ID)
                     COMMAND ${CMAKE_COMMAND} -E copy
                     "${DG_QT_PREFIX_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
                     "${CMAKE_BINARY_DIR}/platforms/")
+            install(FILES ${DG_QT_PREFIX_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll
+                    DESTINATION ${CMAKE_INSTALL_BINDIR}/platforms)
         else ()
             message(WARNING "file ${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll not found, execution may fail")
         endif ()
@@ -57,6 +59,8 @@ function(dg_target_add_qt PROJECT_ID)
                     COMMAND ${CMAKE_COMMAND} -E copy
                     "${QT_INSTALL_PATH}/bin/Qt${DG_QT_VERSION}${QT_LIB}${DEBUG_SUFFIX}.dll"
                     "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+            install(FILES ${QT_INSTALL_PATH}/bin/Qt${DG_QT_VERSION}${QT_LIB}${DEBUG_SUFFIX}.dll
+                    DESTINATION ${CMAKE_INSTALL_BINDIR})
         endforeach (QT_LIB)
     endif ()
 endfunction()
