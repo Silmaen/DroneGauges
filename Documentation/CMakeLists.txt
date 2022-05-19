@@ -7,12 +7,13 @@ if (DOXYGEN_FOUND)
     if (${DOXYGEN_VERSION} VERSION_LESS 1.9.2)
         message(FATAL_ERROR "Doxygen version 1.9.2 or higher is required")
     endif ()
-    add_custom_target(documentation
+    add_custom_target(Documentation
             COMMAND ${DOXYGEN_EXECUTABLE}
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
             COMMENT "Generating API documentation"
             VERBATIM)
+    configure_file(${PROJECT_SOURCE_DIR}/Doxyfile ${PROJECT_BINARY_DIR}/Doxyfile)
 else (DOXYGEN_FOUND)
-    message(ERROR no doxygen found)
+    message(FATAL_ERROR "no doxygen found")
 endif (DOXYGEN_FOUND)
 # ----------------------------------------------------------------------------------------------------------------------
