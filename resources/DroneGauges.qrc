@@ -1,0 +1,8 @@
+<RCC>
+  <qresource>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_back.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_ladd.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_mask.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_roll.svg</file>
+  </qresource>
+</RCC>

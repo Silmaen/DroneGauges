@@ -1,6 +1,6 @@
 /**
  * @file application.cpp
- * @author damien.lachouette 
+ * @author Silmean
  * @date 17/05/2022
  * Copyright © 2022 All rights reserved.
  * All modification must get authorization from the author.
@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget* parent):
     QMainWindow(parent),
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    ui->statusbar->showMessage("Starting", 3);
 }
 
 MainWindow::~MainWindow() {

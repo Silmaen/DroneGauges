@@ -2,19 +2,17 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
+  <property name="minimumSize">
+   <size>
     <width>800</width>
     <height>480</height>
-   </rect>
+   </size>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>480</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Drone Gauges</string>
@@ -39,6 +37,24 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="dg::ui::gauge::PrimaryFlightDisplay" name="graphicsView">
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QFrame" name="frame_2">
        <property name="sizePolicy">
@@ -94,6 +110,16 @@
                </property>
               </widget>
              </item>
+             <item row="1" column="0">
+              <widget class="QSpinBox" name="spinBox">
+               <property name="minimum">
+                <number>-90</number>
+               </property>
+               <property name="maximum">
+                <number>90</number>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -119,6 +145,13 @@
                </property>
                <property name="tickInterval">
                 <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QSpinBox" name="spinBox_2">
+               <property name="maximum">
+                <number>360</number>
                </property>
               </widget>
              </item>
@@ -150,6 +183,19 @@
                </property>
               </widget>
              </item>
+             <item row="1" column="0">
+              <widget class="QSpinBox" name="spinBox_3">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -167,12 +213,171 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
- <connections/>
+ <customwidgets>
+  <customwidget>
+   <class>dg::ui::gauge::PrimaryFlightDisplay</class>
+   <extends>QGraphicsView</extends>
+   <header>gauge/PrimaryFlightDisplay.h</header>
+   <slots>
+    <slot>setPitch(int)</slot>
+    <slot>setYaw(int)</slot>
+    <slot>setRoll(int)</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../../../resources/DroneGauges.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>PitchSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>graphicsView</receiver>
+   <slot>setPitch(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>599</x>
+     <y>373</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>414</x>
+     <y>350</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>YawSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>graphicsView</receiver>
+   <slot>setYaw(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>670</x>
+     <y>258</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>528</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RollSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>graphicsView</receiver>
+   <slot>setRoll(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>738</x>
+     <y>343</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>543</x>
+     <y>321</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>PitchSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>598</x>
+     <y>380</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>606</x>
+     <y>412</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>YawSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>685</x>
+     <y>355</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>691</x>
+     <y>423</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RollSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>746</x>
+     <y>355</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>762</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>PitchSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>629</x>
+     <y>412</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>601</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>YawSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>669</x>
+     <y>419</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>669</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>RollSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>735</x>
+     <y>408</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>729</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

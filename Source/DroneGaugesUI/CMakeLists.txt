@@ -4,7 +4,11 @@
 # define the library as Shared
 add_library(DroneGaugesUi ${DG_LIB_TYPE}
         include/MainWindow.h
+        include/gauge/PrimaryFlightDisplay.h
         src/MainWindow.cpp
+        src/ui/MainWindow.ui
+        src/gauge/PrimaryFlightDisplay.cpp
+        ../../resources/DroneGauges.qrc
         )
 #
 # add dependency to the core lib
