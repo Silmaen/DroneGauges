@@ -1,5 +1,11 @@
 
-#include "application.h"
+#include <QApplication>
+#include <QCommandLineParser>
+#include <filesystem>
+#include "MainWindow.h"
+
+using namespace dg::ui;
+using namespace std::filesystem;
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
@@ -10,10 +16,9 @@ int main(int argc, char* argv[]) {
     parser.addHelpOption();
     parser.addVersionOption();
     parser.process(app);
-    std::filesystem::path rootPath= absolute(std::filesystem::path(argv[0])).parent_path();
+    path rootPath= absolute(path(argv[0])).parent_path();
 
-    QPushButton button("Hello world!", nullptr);
-    button.resize(200, 100);
-    button.show();
-    return QApplication::exec();
+    MainWindow window;
+    window.show();
+    return app.exec();
 }
