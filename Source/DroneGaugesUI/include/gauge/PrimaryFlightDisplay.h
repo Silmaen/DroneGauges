@@ -56,6 +56,8 @@ protected:
 private:
     void init();
     void reset();
+
+    void updateScale();
     void updateView();
 
     void updateBackView();
@@ -67,19 +69,19 @@ private:
     double _scaleMax= 1.0;///<
     double _scaleLow= 0.6;///<
 
-    const int _originalHeight      = 200;///< [px]
-    const int _originalWidth       = 150;///< [px]
-    const double _originalPixPerDeg= 6.0;
+    const int _originalHeight      = 120;///< [px]
+    const int _originalWidth       = 120;///< [px]
+    const double _originalPixPerDeg= 3;
 
     QGraphicsScene* _scene= nullptr;///< graphics scene
 
     ///  background
     QGraphicsSvgItem* _itemBack= nullptr;
-    const double _deltaBack_max= 100;            ///< [px] max pitch ladder background deflection
+    const double _deltaBack_max= 52.5;           ///< [px] max pitch ladder background deflection
     const double _deltaBack_min= -_deltaBack_max;///< [px] min pitch ladder background deflection
     double _backDeltaX_old     = 0;
     double _backDeltaY_old     = 0;
-    QPointF _originalBackPos   = {105, 210};///<
+    QPointF _originalBackPos   = {210, 210};///<
     /// ladder
     QGraphicsSvgItem* _itemLadd= nullptr;
     QPointF _originalLaddPos   = {40, 300};
@@ -87,12 +89,12 @@ private:
     double _laddDeltaY_old     = 0;
 
     /// roll
-    QGraphicsSvgItem  *_itemRoll = nullptr;
-    QPointF _originalRollPos   = {105, 105};///<
+    QGraphicsSvgItem* _itemRoll= nullptr;
+    QPointF _originalRollPos   = {105, 250};///<
 
     /// Mask
-    QGraphicsSvgItem  *_itemMask = nullptr;
-    QPointF _originalMaskPos= {150, 125};
+    QGraphicsSvgItem* _itemMask= nullptr;
+    QPointF _originalMaskPos   = {150, 125};
 
     double _roll = 0;///< [deg]
     double _pitch= 0;///< [deg]

@@ -51,7 +51,7 @@ void PrimaryFlightDisplay::setPitch(int pitch) {
     if(_pitch < -90.0) _pitch= -90.0;
     else if(_pitch > 90.0)
         _pitch= 90.0;
-   redraw();
+    redraw();
 }
 
 void PrimaryFlightDisplay::setYaw(int) {
@@ -65,10 +65,7 @@ void PrimaryFlightDisplay::setRoll(int roll) {
     redraw();
 }
 void PrimaryFlightDisplay::init() {
-    _scaleX  = static_cast<double>(width()) / static_cast<double>(_originalWidth);
-    _scaleY  = static_cast<double>(height()) / static_cast<double>(_originalHeight);
-    _scaleMax= std::max(_scaleX, _scaleY / 2);
-
+    updateScale();
     _itemBack= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_back.svg");
     _itemBack->setCacheMode(QGraphicsItem::NoCache);
     _itemBack->setZValue(0);
@@ -85,32 +82,37 @@ void PrimaryFlightDisplay::init() {
     _itemLadd->moveBy(-_originalLaddPos.x(), -_originalLaddPos.y());
     _scene->addItem(_itemLadd);
 
-    _itemRoll = new QGraphicsSvgItem( ":/Widgets/PrimaryFlightDisplay/pfdd_roll.svg" );
-    _itemRoll->setCacheMode( QGraphicsItem::NoCache );
-    _itemRoll->setZValue( 30 );
+    _itemRoll= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_roll.svg");
+    _itemRoll->setCacheMode(QGraphicsItem::NoCache);
+    _itemRoll->setZValue(30);
     _itemRoll->setScale(_scaleMax * _scaleLow);
-    _itemRoll->setTransformOriginPoint( _originalRollPos );
-    _itemRoll->moveBy( - _originalRollPos.x(), - _originalRollPos.y() );
-    _scene->addItem( _itemRoll );
+    _itemRoll->setTransformOriginPoint(_originalRollPos);
+    _itemRoll->moveBy(-_originalRollPos.x(), -_originalRollPos.y());
+    _scene->addItem(_itemRoll);
 
-    _itemMask = new QGraphicsSvgItem( ":/Widgets/PrimaryFlightDisplay/pfdd_mask.svg" );
-    _itemMask->setCacheMode( QGraphicsItem::NoCache );
-    _itemMask->setZValue( 60 );
-    _itemMask->setScale( _scaleMax*_scaleLow );
-    _itemMask->moveBy(-_scaleMax*_scaleLow*_originalMaskPos.x(), -_scaleMax*_scaleLow*_originalMaskPos.y());
-    _scene->addItem( _itemMask );
+    _itemMask= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_mask.svg");
+    _itemMask->setCacheMode(QGraphicsItem::NoCache);
+    _itemMask->setZValue(60);
+    _itemMask->setScale(_scaleMax * _scaleLow);
+    _itemMask->moveBy(-_scaleMax * _scaleLow * _originalMaskPos.x(), -_scaleMax * _scaleLow * _originalMaskPos.y());
+    _scene->addItem(_itemMask);
 
     updateView();
 }
+void PrimaryFlightDisplay::updateScale() {
 
-void PrimaryFlightDisplay::updateView() {
     _scaleX  = static_cast<double>(width()) / static_cast<double>(_originalWidth);
     _scaleY  = static_cast<double>(height()) / static_cast<double>(_originalHeight);
-    _scaleMax= std::max(_scaleX, _scaleY / 2);
+    _scaleMax= std::min(_scaleX, _scaleY);
+}
+
+void PrimaryFlightDisplay::updateView() {
+    updateScale();
     updateBackView();
     updateLadderView();
     updateRollView();
     _scene->update();
+    centerOn(0, 0);
 }
 
 void PrimaryFlightDisplay::updateBackView() {
@@ -127,19 +129,15 @@ void PrimaryFlightDisplay::updateBackView() {
     } else {
         deltaBack= delta;
     }
-    //deltaBack*=_scaleMax;
 
     double rollx(std::sin(roll_rad));
     double rolly(std::cos(roll_rad));
 
-    rollx*= deltaBack;
-    rolly*= deltaBack;
+    rollx*= _scaleMax * _scaleLow * deltaBack;
+    rolly*= _scaleMax * _scaleLow * deltaBack;
     rollx+= -_originalBackPos.x();
     rolly+= -_originalBackPos.y();
     _itemBack->moveBy(rollx - _backDeltaX_old, rolly - _backDeltaY_old);
-
-    //_itemBack->moveBy(_backDeltaX_new - _backDeltaX_old, _backDeltaY_new - _backDeltaY_old);
-
     _backDeltaX_old= rollx;
     _backDeltaY_old= rolly;
 }
@@ -149,20 +147,16 @@ void PrimaryFlightDisplay::updateLadderView() {
     double rollx(std::sin(roll_rad));
     double rolly(std::cos(roll_rad));
     _itemLadd->setRotation(-_roll);
-    rollx*= delta;
-    rolly*= delta;
+    rollx*= _scaleMax * _scaleLow * delta;
+    rolly*= _scaleMax * _scaleLow * delta;
     rollx+= -_originalLaddPos.x();
     rolly+= -_originalLaddPos.y();
-
-    //rollx= _scaleMax * _scaleLow * delta * rollx;
-   // rolly= _scaleMax * _scaleLow * delta * rolly;
-
     _itemLadd->moveBy(rollx - _laddDeltaX_old, rolly - _laddDeltaY_old);
     _laddDeltaX_old= rollx;
     _laddDeltaY_old= rolly;
 }
 void PrimaryFlightDisplay::updateRollView() {
-    _itemRoll->setRotation( -_roll );
+    _itemRoll->setRotation(-_roll);
 }
 
 }// namespace dg::ui::gauge
