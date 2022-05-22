@@ -37,12 +37,16 @@ constexpr double relativeAccuracy= 1.e-3;
  */
 constexpr double abs(const double& a) { return a > 0 ? a : -a; }
 
+constexpr double clamp(const double& a, const double& lower, const double& upper) {
+    return a < lower ? lower : (a > upper ? upper : a);
+}
+
 /**
  * @brief Check near equality to 0
  * @param a Float to check
  * @return True if near ly equal to zero
  */
-inline constexpr bool isZero(const double& a) {
+constexpr bool isZero(const double& a) {
     return abs(a) < absoluteAccuracy;
 }
 /**
@@ -51,7 +55,7 @@ inline constexpr bool isZero(const double& a) {
  * @param b second float
  * @return True if nearly equal
  */
-inline constexpr bool isEqual(const double& a, const double& b) {
+constexpr bool isEqual(const double& a, const double& b) {
     double diff= abs(a - b);
     double aa  = abs(a);
     double ab  = abs(b);
@@ -69,7 +73,7 @@ inline constexpr bool isEqual(const double& a, const double& b) {
  * @param absAccuracy Absolute accuracy
  * @return True if nearly equal
  */
-inline constexpr bool isEqualA(const double& a, const double& b, const double& absAccuracy= absoluteAccuracy) {
+constexpr bool isEqualA(const double& a, const double& b, const double& absAccuracy= absoluteAccuracy) {
     return abs(a - b) < absAccuracy;
 }
 
@@ -80,7 +84,7 @@ inline constexpr bool isEqualA(const double& a, const double& b, const double& a
  * @param relAccuracy Absolute accuracy
  * @return True if nearly equal
  */
-inline constexpr bool isEqualR(const double& a, const double& b, const double& relAccuracy= relativeAccuracy) {
+constexpr bool isEqualR(const double& a, const double& b, const double& relAccuracy= relativeAccuracy) {
     return abs(a - b) / (abs(a) + abs(b)) < relAccuracy;
 }
 

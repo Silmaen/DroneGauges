@@ -6,7 +6,8 @@
  * All modification must get authorization from the author.
  */
 
-#include "../include/gauge/PrimaryFlightDisplay.h"
+#include "gauge/PrimaryFlightDisplay.h"
+#include "base/base.h"
 
 #include <gauge/moc_PrimaryFlightDisplay.cpp>
 #include <iostream>
@@ -46,11 +47,7 @@ void PrimaryFlightDisplay::resizeEvent(QResizeEvent* event) {
 }
 
 void PrimaryFlightDisplay::setPitch(int pitch) {
-    _pitch= pitch;
-
-    if(_pitch < -90.0) _pitch= -90.0;
-    else if(_pitch > 90.0)
-        _pitch= 90.0;
+    _pitch= core::base::clamp(pitch, -90, 90);
     redraw();
 }
 
@@ -58,10 +55,7 @@ void PrimaryFlightDisplay::setYaw(int) {
 }
 
 void PrimaryFlightDisplay::setRoll(int roll) {
-    _roll= roll;
-    if(_roll < -180.0) _roll= -180.0;
-    else if(_roll > 180.0)
-        _roll= 180.0;
+    _roll= core::base::clamp(roll, -180, 180);
     redraw();
 }
 void PrimaryFlightDisplay::init() {
@@ -100,7 +94,6 @@ void PrimaryFlightDisplay::init() {
     updateView();
 }
 void PrimaryFlightDisplay::updateScale() {
-
     _scaleX  = static_cast<double>(width()) / static_cast<double>(_originalWidth);
     _scaleY  = static_cast<double>(height()) / static_cast<double>(_originalHeight);
     _scaleMax= std::min(_scaleX, _scaleY);
@@ -116,44 +109,23 @@ void PrimaryFlightDisplay::updateView() {
 }
 
 void PrimaryFlightDisplay::updateBackView() {
-    double delta   = _originalPixPerDeg * _pitch;
     double roll_rad= M_PI * _roll / 180.0;
-
     _itemBack->setRotation(-_roll);
-
-    double deltaBack= 0.0;
-    if(delta > _deltaBack_max) {
-        deltaBack= _deltaBack_max;
-    } else if(delta < _deltaBack_min) {
-        deltaBack= _deltaBack_min;
-    } else {
-        deltaBack= delta;
-    }
-
-    double rollx(std::sin(roll_rad));
-    double rolly(std::cos(roll_rad));
-
-    rollx*= _scaleMax * _scaleLow * deltaBack;
-    rolly*= _scaleMax * _scaleLow * deltaBack;
-    rollx+= -_originalBackPos.x();
-    rolly+= -_originalBackPos.y();
-    _itemBack->moveBy(rollx - _backDeltaX_old, rolly - _backDeltaY_old);
-    _backDeltaX_old= rollx;
-    _backDeltaY_old= rolly;
+    double deltaBack= core::base::clamp(_originalPixPerDeg * _pitch, _deltaBack_min, _deltaBack_max);
+    deltaBack*= _scaleMax * _scaleLow;
+    QPointF roll(std::sin(roll_rad), std::cos(roll_rad));
+    roll*= deltaBack;
+    roll-= _originalBackPos;
+    _itemBack->setPos(roll);
 }
 void PrimaryFlightDisplay::updateLadderView() {
     double delta   = _originalPixPerDeg * _pitch;
     double roll_rad= M_PI * _roll / 180.0;
-    double rollx(std::sin(roll_rad));
-    double rolly(std::cos(roll_rad));
     _itemLadd->setRotation(-_roll);
-    rollx*= _scaleMax * _scaleLow * delta;
-    rolly*= _scaleMax * _scaleLow * delta;
-    rollx+= -_originalLaddPos.x();
-    rolly+= -_originalLaddPos.y();
-    _itemLadd->moveBy(rollx - _laddDeltaX_old, rolly - _laddDeltaY_old);
-    _laddDeltaX_old= rollx;
-    _laddDeltaY_old= rolly;
+    QPointF roll(std::sin(roll_rad), std::cos(roll_rad));
+    roll*= _scaleMax * _scaleLow * delta;
+    roll-= _originalLaddPos;
+    _itemLadd->setPos(roll);
 }
 void PrimaryFlightDisplay::updateRollView() {
     _itemRoll->setRotation(-_roll);

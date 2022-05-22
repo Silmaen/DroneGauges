@@ -6,8 +6,8 @@
  * All modification must get authorization from the author.
  */
 
-#include "base/base.h"
 #include "CoreTestHelper.h"
+#include "base/base.h"
 
 using namespace dg::core::base;
 
@@ -24,4 +24,11 @@ TEST(Base, FloatOperation) {
     EXPECT_FALSE(isEqualA(100, 101));
     EXPECT_TRUE(isEqualR(100, 100));
     EXPECT_FALSE(isEqualR(100, 101));
+}
+
+TEST(Base, Clamp) {
+    EXPECT_EQ(clamp(100, 0, 200), 100);
+    EXPECT_EQ(clamp(100, 110, 200), 110);
+    EXPECT_EQ(clamp(100, 0, 90), 90);
+    EXPECT_EQ(clamp(100, 90, 0), 0);
 }
