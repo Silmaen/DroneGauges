@@ -14,6 +14,10 @@
 
 namespace dg::ui::gauge {
 
+namespace pfd {
+class ADI;
+}
+
 /**
  * @brief Base Object for flight data display
  */
@@ -60,40 +64,15 @@ private:
     void updateScale();
     void updateView();
 
-    void updateBackView();
-    void updateLadderView();
-    void updateRollView();
+    QGraphicsScene* _scene= nullptr;///< graphics scene
+    pfd::ADI* adi         = nullptr;
 
     double _scaleX  = 1.0;
     double _scaleY  = 1.0;
     double _scaleMax= 1.0;
-    double _scaleLow= 0.6;
 
     const int _originalHeight      = 120;
     const int _originalWidth       = 120;
-    const double _originalPixPerDeg= 3;
-
-    QGraphicsScene* _scene= nullptr;///< graphics scene
-
-    ///  background
-    QGraphicsSvgItem* _itemBack= nullptr;
-    const double _deltaBack_max= 52.5;
-    const double _deltaBack_min= -_deltaBack_max;
-    QPointF _originalBackPos   = {210, 210};
-    /// ladder
-    QGraphicsSvgItem* _itemLadd= nullptr;
-    QPointF _originalLaddPos   = {40, 300};
-
-    /// roll
-    QGraphicsSvgItem* _itemRoll= nullptr;
-    QPointF _originalRollPos   = {105, 250};
-
-    /// Mask
-    QGraphicsSvgItem* _itemMask= nullptr;
-    QPointF _originalMaskPos   = {150, 125};
-
-    double _roll = 0;
-    double _pitch= 0;
 };
 
 }// namespace dg::ui::gauge
