@@ -12,12 +12,13 @@
 #include <gauge/moc_PrimaryFlightDisplay.cpp>
 #include <iostream>
 #include "gauge/pfd/Adi.h"
+#include "gauge/pfd/Alt.h"
 
 namespace dg::ui::gauge {
 
 PrimaryFlightDisplay::PrimaryFlightDisplay(QWidget* parent):
     QGraphicsView(parent), _scene(new QGraphicsScene(this)),
-    adi(new pfd::ADI(_scene)){
+    adi(new pfd::ADI(_scene)), alt(new pfd::ALT(_scene)){
     setScene(_scene);
     _scene->clear();
     init();
@@ -50,7 +51,7 @@ void PrimaryFlightDisplay::resizeEvent(QResizeEvent* event) {
 }
 
 void PrimaryFlightDisplay::setPitch(int pitch) {
-    adi->serPitch(pitch);
+    adi->setPitch(pitch);
     redraw();
 }
 
@@ -61,9 +62,21 @@ void PrimaryFlightDisplay::setRoll(int roll) {
     adi-> setRoll(roll);
     redraw();
 }
+
+void PrimaryFlightDisplay::setAltitude(double altitude){
+    alt->setAltitude(altitude);
+    redraw();
+}
+
+void PrimaryFlightDisplay::setVerticalVelocity(double verticalVelocity){
+    alt->setVerticalVelocity(verticalVelocity);
+    redraw();
+}
+
 void PrimaryFlightDisplay::init() {
     updateScale();
     adi->init(_scaleMax);
+    alt->init(_scaleMax);
     updateView();
 }
 void PrimaryFlightDisplay::updateScale() {
@@ -75,6 +88,7 @@ void PrimaryFlightDisplay::updateScale() {
 void PrimaryFlightDisplay::updateView() {
     updateScale();
     adi->update(_scaleMax);
+    alt->update(_scaleMax);
     _scene->update();
     centerOn(0, 0);
 }

@@ -16,7 +16,8 @@ namespace dg::ui::gauge {
 
 namespace pfd {
 class ADI;
-}
+class ALT;
+}// namespace pfd
 
 /**
  * @brief Base Object for flight data display
@@ -54,6 +55,18 @@ public slots:
      */
     void setRoll(int);
 
+    /**
+     * @brief Defines the internal altitude
+     * @param altitude The new altitude
+     */
+    void setAltitude(double altitude);
+
+    /**
+     * @brief Defines the internal vertical velocity
+     * @param verticalVelocity The new vertical velocity
+     */
+    void setVerticalVelocity(double verticalVelocity);
+
 protected:
     /** */
     void resizeEvent(QResizeEvent* event) override;
@@ -66,13 +79,14 @@ private:
 
     QGraphicsScene* _scene= nullptr;///< graphics scene
     pfd::ADI* adi         = nullptr;
+    pfd::ALT* alt         = nullptr;
 
     double _scaleX  = 1.0;
     double _scaleY  = 1.0;
     double _scaleMax= 1.0;
 
-    const int _originalHeight      = 120;
-    const int _originalWidth       = 120;
+    const int _originalHeight= 120;
+    const int _originalWidth = 120;
 };
 
 }// namespace dg::ui::gauge

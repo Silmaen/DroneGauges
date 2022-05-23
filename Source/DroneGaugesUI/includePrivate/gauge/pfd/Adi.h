@@ -24,10 +24,9 @@ public:
     void update(double scale);
 
     void setRoll(double roll);
-    void serPitch(double pitch);
+    void setPitch(double pitch);
 private:
 
-    void reset();
     void updateBackView();
     void updateLadderView();
     void updateRollView();
@@ -35,8 +34,6 @@ private:
     double _scale= 1.0;
     double _scaleLow= 0.6;
 
-    const int _originalHeight      = 120;
-    const int _originalWidth       = 120;
     const double _originalPixPerDeg= 3;
 
     QGraphicsScene *_scene=nullptr;///< graphics scene

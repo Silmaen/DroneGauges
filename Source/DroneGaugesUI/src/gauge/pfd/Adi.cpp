@@ -56,7 +56,6 @@ void ADI::update(double scale) {
     updateRollView();
 }
 
-
 void ADI::updateBackView(){
     double roll_rad= M_PI * _roll / 180.0;
     _itemBack->setRotation(-_roll);
@@ -86,7 +85,7 @@ void ADI::setRoll(double roll) {
     _roll= core::base::clamp(roll, -180, 180);
 }
 
-void ADI::serPitch(double pitch) {
+void ADI::setPitch(double pitch) {
     _pitch= core::base::clamp(pitch, -90, 90);
 }
 
