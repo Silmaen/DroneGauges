@@ -7,11 +7,14 @@ add_library(DroneGaugesUi ${DG_LIB_TYPE}
         include/gauge/PrimaryFlightDisplay.h
         includePrivate/gauge/pfd/Adi.h
         includePrivate/gauge/pfd/Alt.h
+        includePrivate/gauge/pfd/font.h
+        includePrivate/gauge/pfd/color.h
         src/MainWindow.cpp
         src/ui/MainWindow.ui
         src/gauge/PrimaryFlightDisplay.cpp
         src/gauge/pfd/Adi.cpp
         src/gauge/pfd/Alt.cpp
+        src/gauge/pfd/font.cpp
         ../../resources/DroneGauges.qrc
         )
 #

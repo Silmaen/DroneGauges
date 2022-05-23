@@ -9,16 +9,16 @@
 #include "gauge/PrimaryFlightDisplay.h"
 #include "base/base.h"
 
-#include <gauge/moc_PrimaryFlightDisplay.cpp>
-#include <iostream>
 #include "gauge/pfd/Adi.h"
 #include "gauge/pfd/Alt.h"
+#include <gauge/moc_PrimaryFlightDisplay.cpp>
+#include <iostream>
 
 namespace dg::ui::gauge {
 
 PrimaryFlightDisplay::PrimaryFlightDisplay(QWidget* parent):
     QGraphicsView(parent), _scene(new QGraphicsScene(this)),
-    adi(new pfd::ADI(_scene)), alt(new pfd::ALT(_scene)){
+    adi(new pfd::ADI(_scene)), alt(new pfd::ALT(_scene)) {
     setScene(_scene);
     _scene->clear();
     init();
@@ -59,18 +59,21 @@ void PrimaryFlightDisplay::setYaw(int) {
 }
 
 void PrimaryFlightDisplay::setRoll(int roll) {
-    adi-> setRoll(roll);
+    adi->setRoll(roll);
     redraw();
 }
 
-void PrimaryFlightDisplay::setAltitude(double altitude){
+void PrimaryFlightDisplay::setAltitude(int altitude) {
     alt->setAltitude(altitude);
     redraw();
 }
 
-void PrimaryFlightDisplay::setVerticalVelocity(double verticalVelocity){
+void PrimaryFlightDisplay::setVerticalVelocity(int verticalVelocity) {
     alt->setVerticalVelocity(verticalVelocity);
     redraw();
+}
+
+void PrimaryFlightDisplay::setVelocity(int) {
 }
 
 void PrimaryFlightDisplay::init() {

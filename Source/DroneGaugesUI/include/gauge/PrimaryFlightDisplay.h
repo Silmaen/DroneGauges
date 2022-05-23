@@ -59,13 +59,19 @@ public slots:
      * @brief Defines the internal altitude
      * @param altitude The new altitude
      */
-    void setAltitude(double altitude);
+    void setAltitude(int altitude);
+
+    /**
+     * @brief Defines the internal vertical velocity
+     * @param Velocity The new vertical velocity
+     */
+    void setVelocity(int velocity);
 
     /**
      * @brief Defines the internal vertical velocity
      * @param verticalVelocity The new vertical velocity
      */
-    void setVerticalVelocity(double verticalVelocity);
+    void setVerticalVelocity(int verticalVelocity);
 
 protected:
     /** */
