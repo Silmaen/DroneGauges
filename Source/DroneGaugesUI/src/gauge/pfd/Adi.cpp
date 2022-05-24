@@ -9,6 +9,10 @@
 #include "gauge/pfd/Adi.h"
 #include "base/base.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265359
+#endif
+
 namespace dg::ui::gauge::pfd {
 
 ADI::ADI(QGraphicsScene* scene):

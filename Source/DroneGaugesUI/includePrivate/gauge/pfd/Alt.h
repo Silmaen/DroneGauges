@@ -29,33 +29,25 @@ private:
     void updateAltView();
     void updateVertVelView();
 
-    double _scale                    = 1.0;
-    QGraphicsScene* _scene           = nullptr;///< graphics scene
-    const double _originalPixPerAlt  = 0.50;
-    const double _originalScaleHeight= 300;
-    const double _scale_factor       = 0.4;
+    double _scale                  = 1.0;
+    QGraphicsScene* _scene         = nullptr;///< graphics scene
+    const double _originalPixPerAlt= 1.5;
+    const double _scale_factor     = 0.4;
+    const double scaleSize         = 150;
 
-    QPointF position= {100, 0};
+    const QPointF position= {100, 0};
     QGraphicsSvgItem* _itemBack;///<
-    QPointF backpos= {20, 87.5};
+    const QPointF backpos= {20, 87.5};
     QGraphicsSvgItem* _itemScale1;///<
-    QPointF scale1Pos= {20, 150};
-    QGraphicsSvgItem* _itemScale2;///<
-    QPointF scale2Pos= {231, -474.5};
+    const QPointF scale1Pos= {0, 152.0};
     QGraphicsTextItem* _itemLabel1;///<
-    QPointF label1Pos= {253, 50};
     QGraphicsTextItem* _itemLabel2;///<
-    QPointF label2Pos= {253, 125};
     QGraphicsTextItem* _itemLabel3;///<
-    QPointF label3Pos= {253, 200};
-    QGraphicsSvgItem* _itemGround;///<
-    QPointF groundPos= {0, -87.5};
+    QGraphicsSvgItem* _itemGround; ///<
+    const QPointF groundPos= {0, -87};
     QGraphicsSvgItem* _itemFrame;///<
-    QPointF framePos= {25, 15};
+    const QPointF framePos= {25, 15};
     QGraphicsTextItem* _itemAltitude;///<
-    QPointF altitudePos= {254, 126};
-    QGraphicsTextItem* _itemPressure;///<
-    QPointF pressurePos= {254, 225};
 
     double _altitude        = 0;
     double _verticalVelocity= 0;
