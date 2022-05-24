@@ -12,8 +12,11 @@
 
 namespace dg::ui::gauge::pfd {
 
+/// Constant Lime color
 constexpr QColor lime{0, 255, 0};
+/// Constant Magenta color
 constexpr QColor magenta{255, 0, 255};
+/// Constant white color
 constexpr QColor white{255, 255, 255};
 
 }// namespace dg::ui::gauge::pfd

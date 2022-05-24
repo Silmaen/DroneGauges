@@ -11,6 +11,7 @@
 #include <QFont>
 
 namespace dg::ui::gauge::pfd {
+
 /**
  * @brief Fonts class.
  */

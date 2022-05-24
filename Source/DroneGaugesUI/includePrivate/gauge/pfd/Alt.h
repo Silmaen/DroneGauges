@@ -17,16 +17,44 @@ namespace dg::ui::gauge::pfd {
  */
 class ALT {
 public:
+    /**
+     * @brief Constructor
+     * @param scene The scene where to display
+     */
     explicit ALT(QGraphicsScene* scene);
 
+    /**
+     * @brief Initialization of the display
+     * @param scale the initial scal of the view
+     */
     void init(double scale);
+
+    /**
+     * @brief Update the view port
+     * @param scale The update scale of the view
+     */
     void update(double scale);
 
+    /**
+     * @brief Define the altitude to display
+     * @param altitude The altitude to display
+     */
     void setAltitude(double altitude);
+    /**
+     * @brief Define the vertical velocity to display
+     * @param verticalVelocity The displayed vertical velocity
+     */
     void setVerticalVelocity(double verticalVelocity);
-
 private:
+
+    /**
+     * @brief update the Altitude view
+     */
     void updateAltView();
+
+    /**
+     * @brief Update the vertical velocity view
+     */
     void updateVertVelView();
 
     double _scale                  = 1.0;
