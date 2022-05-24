@@ -7,15 +7,14 @@
  */
 
 #include "gauge/pfd/Alt.h"
+#include "base/base.h"
 #include "gauge/pfd/color.h"
 #include "gauge/pfd/font.h"
-#include "base/base.h"
 
 namespace dg::ui::gauge::pfd {
 
 ALT::ALT(QGraphicsScene* scene):
-    _scene{scene} {
-}
+    _scene{scene} {}
 
 void ALT::init(double scale) {
     _scale   = scale * _scale_factor;
@@ -32,7 +31,7 @@ void ALT::init(double scale) {
     _itemScale1->setCacheMode(QGraphicsItem::NoCache);
     _itemScale1->setZValue(77);
     _itemScale1->setTransformOriginPoint(scale1Pos);
-    _itemScale1->setPos(-scale1Pos + _scale * position);
+    _itemScale1->setPos(-scale1Pos);
 
     _itemLabel1= new QGraphicsTextItem(QString("99999"), _itemBack);
     _itemLabel1->setCacheMode(QGraphicsItem::NoCache);
@@ -76,10 +75,10 @@ void ALT::init(double scale) {
     _itemScale->setCacheMode(QGraphicsItem::NoCache);
     _itemScale->setZValue(70);
     _itemScale->setScale(_scale);
-    ;
     _itemScale->setTransformOriginPoint(scalePos);
     _itemScale->setPos(-scalePos + _scale * (position + scaleOffset));
     _scene->addItem(_itemScale);
+
     _itemMarker= new QGraphicsRectItem(_originalMarkerPos.x(), _originalMarkerPos.y(), _originalMarkerWidth, 0, _itemScale);
     _itemMarker->setBrush(_markerBrush);
     _itemMarker->setPen(_markerPen);
@@ -180,7 +179,7 @@ void ALT::setAltitude(double altitude) {
 }
 
 void ALT::setVerticalVelocity(double verticalVelocity) {
-    _verticalVelocity= core::base::clamp(verticalVelocity,-6.8,6.8);
+    _verticalVelocity= core::base::clamp(verticalVelocity, -6.8, 6.8);
 }
 
 }// namespace dg::ui::gauge::pfd

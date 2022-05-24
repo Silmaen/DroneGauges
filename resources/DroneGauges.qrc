@@ -9,5 +9,10 @@
     <file>Widgets/PrimaryFlightDisplay/pfdd_alt_ground.svg</file>
     <file>Widgets/PrimaryFlightDisplay/pfdd_alt_scale.svg</file>
     <file>Widgets/PrimaryFlightDisplay/pfdd_vsi_scale.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_asi_back.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_asi_bug.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_asi_frame.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_asi_scale.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_asi_vne.svg</file>
   </qresource>
 </RCC>

@@ -45,8 +45,8 @@ public:
      * @param verticalVelocity The displayed vertical velocity
      */
     void setVerticalVelocity(double verticalVelocity);
-private:
 
+private:
     /**
      * @brief update the Altitude view
      */
@@ -63,7 +63,7 @@ private:
     const double _scale_factor     = 0.4;
     const double scaleSize         = 150;
 
-    const QPointF position= {100, 0};
+    const QPointF position= {120, 0};
     QGraphicsSvgItem* _itemBack;///<
     const QPointF backpos= {20, 87.5};
     QGraphicsSvgItem* _itemScale1;///<

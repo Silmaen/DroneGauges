@@ -11,6 +11,7 @@
 
 #include "gauge/pfd/Adi.h"
 #include "gauge/pfd/Alt.h"
+#include "gauge/pfd/Asi.h"
 #include <gauge/moc_PrimaryFlightDisplay.cpp>
 #include <iostream>
 
@@ -18,7 +19,7 @@ namespace dg::ui::gauge {
 
 PrimaryFlightDisplay::PrimaryFlightDisplay(QWidget* parent):
     QGraphicsView(parent), _scene(new QGraphicsScene(this)),
-    adi(new pfd::ADI(_scene)), alt(new pfd::ALT(_scene)) {
+    adi(new pfd::ADI(_scene)), alt(new pfd::ALT(_scene)), asi(new pfd::ASI(_scene)) {
     setScene(_scene);
     _scene->clear();
     init();
@@ -29,6 +30,8 @@ PrimaryFlightDisplay::~PrimaryFlightDisplay() {
         delete _scene;
         _scene= nullptr;
         delete adi;
+        delete alt;
+        delete asi;
     }
 }
 
@@ -69,17 +72,20 @@ void PrimaryFlightDisplay::setAltitude(int altitude) {
 }
 
 void PrimaryFlightDisplay::setVerticalVelocity(int verticalVelocity) {
-    alt->setVerticalVelocity(verticalVelocity);
+    alt->setVerticalVelocity(verticalVelocity / 10.0);
     redraw();
 }
 
-void PrimaryFlightDisplay::setVelocity(int) {
+void PrimaryFlightDisplay::setVelocity(int velocity) {
+    asi->setVelocity(velocity);
+    redraw();
 }
 
 void PrimaryFlightDisplay::init() {
     updateScale();
     adi->init(_scaleMax);
     alt->init(_scaleMax);
+    asi->init(_scaleMax);
     updateView();
 }
 void PrimaryFlightDisplay::updateScale() {
@@ -92,6 +98,7 @@ void PrimaryFlightDisplay::updateView() {
     updateScale();
     adi->update(_scaleMax);
     alt->update(_scaleMax);
+    asi->update(_scaleMax);
     _scene->update();
     centerOn(0, 0);
 }

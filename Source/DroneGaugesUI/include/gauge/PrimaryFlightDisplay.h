@@ -17,6 +17,7 @@ namespace dg::ui::gauge {
 namespace pfd {
 class ADI;
 class ALT;
+class ASI;
 }// namespace pfd
 
 /**
@@ -86,6 +87,7 @@ private:
     QGraphicsScene* _scene= nullptr;///< graphics scene
     pfd::ADI* adi         = nullptr;
     pfd::ALT* alt         = nullptr;
+    pfd::ASI* asi         = nullptr;
 
     double _scaleX  = 1.0;
     double _scaleY  = 1.0;
