@@ -48,6 +48,17 @@ private:
     QGraphicsSvgItem* _itemFrame;///<
     const QPointF framePos= {25, 15};
     QGraphicsTextItem* _itemAltitude;///<
+    QGraphicsSvgItem* _itemScale;    ///< climb rate scale
+    const QPointF scalePos   = {9.5, 75};
+    const QPointF scaleOffset= {40, 0};
+    QGraphicsRectItem* _itemMarker;///<
+    const QPointF _originalMarkerPos= {10, 75};
+    const int _originalMarkerWidth  = 4;
+    const double _originalPixPerSpd1= 30;
+    const double _originalPixPerSpd2= 20;
+    const double _originalPixPerSpd4= 5;
+    QBrush _markerBrush             = {QColor(0xff, 0xff, 0xff), Qt::SolidPattern};///<
+    QPen _markerPen                 = {_markerBrush, 0};                           ///<
 
     double _altitude        = 0;
     double _verticalVelocity= 0;

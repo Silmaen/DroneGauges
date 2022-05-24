@@ -9,7 +9,7 @@
 #include "gauge/pfd/Alt.h"
 #include "gauge/pfd/color.h"
 #include "gauge/pfd/font.h"
-#include <iostream>
+#include "base/base.h"
 
 namespace dg::ui::gauge::pfd {
 
@@ -71,6 +71,18 @@ void ALT::init(double scale) {
     _itemAltitude->setZValue(120);
     _itemAltitude->setDefaultTextColor(white);
     _itemAltitude->setFont(Font::medium());
+
+    _itemScale= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_vsi_scale.svg");
+    _itemScale->setCacheMode(QGraphicsItem::NoCache);
+    _itemScale->setZValue(70);
+    _itemScale->setScale(_scale);
+    ;
+    _itemScale->setTransformOriginPoint(scalePos);
+    _itemScale->setPos(-scalePos + _scale * (position + scaleOffset));
+    _scene->addItem(_itemScale);
+    _itemMarker= new QGraphicsRectItem(_originalMarkerPos.x(), _originalMarkerPos.y(), _originalMarkerWidth, 0, _itemScale);
+    _itemMarker->setBrush(_markerBrush);
+    _itemMarker->setPen(_markerPen);
 }
 
 void ALT::update(double scale) {
@@ -139,6 +151,28 @@ void ALT::updateAltView() {
 }
 
 void ALT::updateVertVelView() {
+
+    double climbRateAbs= fabs(_verticalVelocity);
+    double arrowDeltaY = 0.0;
+    if(climbRateAbs <= 1.0) {
+        arrowDeltaY= _originalPixPerSpd1 * climbRateAbs;
+    } else if(climbRateAbs <= 2.0) {
+        arrowDeltaY= _originalPixPerSpd1 + _originalPixPerSpd2 * (climbRateAbs - 1.0);
+    } else {
+        arrowDeltaY= _originalPixPerSpd1 + _originalPixPerSpd2 + _originalPixPerSpd4 * (climbRateAbs - 2.0);
+    }
+
+    if(_verticalVelocity > 0.0) {
+        _itemMarker->setRect(_originalMarkerPos.x(),
+                             _originalMarkerPos.y() - arrowDeltaY,
+                             _originalMarkerWidth,
+                             arrowDeltaY);
+    } else {
+        _itemMarker->setRect(_originalMarkerPos.x(),
+                             _originalMarkerPos.y(),
+                             _originalMarkerWidth,
+                             arrowDeltaY);
+    }
 }
 
 void ALT::setAltitude(double altitude) {
@@ -146,7 +180,7 @@ void ALT::setAltitude(double altitude) {
 }
 
 void ALT::setVerticalVelocity(double verticalVelocity) {
-    _verticalVelocity= verticalVelocity;
+    _verticalVelocity= core::base::clamp(verticalVelocity,-6.8,6.8);
 }
 
 }// namespace dg::ui::gauge::pfd
