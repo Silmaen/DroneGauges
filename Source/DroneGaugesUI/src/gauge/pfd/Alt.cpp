@@ -33,23 +33,14 @@ void ALT::init(double scale) {
     _itemScale1->setTransformOriginPoint(scale1Pos);
     _itemScale1->setPos(-scale1Pos);
 
-    _itemLabel1= new QGraphicsTextItem(QString("99999"), _itemBack);
-    _itemLabel1->setCacheMode(QGraphicsItem::NoCache);
-    _itemLabel1->setZValue(78);
-    _itemLabel1->setDefaultTextColor(white);
-    _itemLabel1->setFont(Font::small());
-
-    _itemLabel2= new QGraphicsTextItem(QString("99999"), _itemBack);
-    _itemLabel2->setCacheMode(QGraphicsItem::NoCache);
-    _itemLabel2->setZValue(78);
-    _itemLabel2->setDefaultTextColor(white);
-    _itemLabel2->setFont(Font::small());
-
-    _itemLabel3= new QGraphicsTextItem(QString("99999"), _itemBack);
-    _itemLabel3->setCacheMode(QGraphicsItem::NoCache);
-    _itemLabel3->setZValue(78);
-    _itemLabel3->setDefaultTextColor(white);
-    _itemLabel3->setFont(Font::small());
+    _itemLabels.clear();
+    for(uint8_t i= 0; i < nbLabels; ++i) {
+        _itemLabels.emplace_back(new QGraphicsTextItem(QString("999"), _itemBack));
+        _itemLabels.back()->setCacheMode(QGraphicsItem::NoCache);
+        _itemLabels.back()->setZValue(90);
+        _itemLabels.back()->setDefaultTextColor(white);
+        _itemLabels.back()->setFont(Font::small());
+    }
 
     _itemGround= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_alt_ground.svg", _itemBack);
     _itemGround->setCacheMode(QGraphicsItem::NoCache);
@@ -108,44 +99,29 @@ void ALT::updateAltView() {
     int altLabelInterval= scaleSize / 2.0 / _originalPixPerAlt;
 
     int alt= tmp - (tmp % altLabelInterval);
-
-    double alt1= static_cast<double>(alt) + altLabelInterval;
-    double alt2= static_cast<double>(alt);
-    double alt3= static_cast<double>(alt) - altLabelInterval;
+    std::vector<double> alts;
+    for(uint8_t i= 0; i < nbLabels; ++i) {
+        alts.push_back(static_cast<double>(alt) + (nbLabels / 2 - i) * altLabelInterval);
+    }
 
     while(_labelsDeltaY > altLabelInterval) {
         _labelsDeltaY= _labelsDeltaY - scaleSize / 2.0;
     }
 
-    if(_labelsDeltaY < 0.0 && _altitude > alt2) {
-        alt1+= altLabelInterval;
-        alt2+= altLabelInterval;
-        alt3+= altLabelInterval;
+    if(_labelsDeltaY < 0.0 && _altitude > alt) {
+        std::for_each(alts.begin(), alts.end(), [&altLabelInterval](double& d) { d+= altLabelInterval; });
     }
 
-    _itemLabel1->setPos(0.0, _labelsDeltaY);
-    _itemLabel2->setPos(0.0, _labelsDeltaY + scaleSize / 2.0);
-    _itemLabel3->setPos(0.0, _labelsDeltaY + scaleSize);
-
-    if(alt1 > 0.0 && alt1 <= 100000.0) {
-        _itemLabel1->setVisible(true);
-        _itemLabel1->setPlainText(QString("%1").arg(alt1, 5, 'f', 0, QChar(' ')));
-    } else {
-        _itemLabel1->setVisible(false);
+    for(uint8_t i= 0; i < nbLabels; ++i) {
+        _itemLabels[i]->setPos(itemPos.x(), itemPos.y() + _labelsDeltaY + i * scaleSize / 2.0);
     }
-
-    if(alt2 > 0.0 && alt2 <= 100000.0) {
-        _itemLabel2->setVisible(true);
-        _itemLabel2->setPlainText(QString("%1").arg(alt2, 5, 'f', 0, QChar(' ')));
-    } else {
-        _itemLabel2->setVisible(false);
-    }
-
-    if(alt3 > 0.0 && alt3 <= 100000.0) {
-        _itemLabel3->setVisible(true);
-        _itemLabel3->setPlainText(QString("%1").arg(alt3, 5, 'f', 0, QChar(' ')));
-    } else {
-        _itemLabel3->setVisible(false);
+    for(uint8_t i= 0; i < nbLabels; ++i) {
+        if(alts[i] > 0.0 && alts[i] <= 100000.0) {
+            _itemLabels[i]->setVisible(true);
+            _itemLabels[i]->setPlainText(QString("%1").arg(alts[i], 3, 'f', 0, QChar(' ')));
+        } else {
+            _itemLabels[i]->setVisible(false);
+        }
     }
 }
 

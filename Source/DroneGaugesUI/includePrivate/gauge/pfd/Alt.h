@@ -68,9 +68,9 @@ private:
     const QPointF backpos= {20, 87.5};
     QGraphicsSvgItem* _itemScale1;///<
     const QPointF scale1Pos= {0, 152.0};
-    QGraphicsTextItem* _itemLabel1;///<
-    QGraphicsTextItem* _itemLabel2;///<
-    QGraphicsTextItem* _itemLabel3;///<
+    const uint8_t nbLabels = 3;
+    std::vector<QGraphicsTextItem*> _itemLabels;
+    const QPointF itemPos= {12, 0.0};
     QGraphicsSvgItem* _itemGround; ///<
     const QPointF groundPos= {0, -87};
     QGraphicsSvgItem* _itemFrame;///<

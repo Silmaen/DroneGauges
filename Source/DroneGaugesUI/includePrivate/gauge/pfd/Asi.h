@@ -44,6 +44,8 @@ public:
     void setVne(double vne);
 
 private:
+
+
     double _scale                  = 1.0;
     QGraphicsScene* _scene         = nullptr;///< graphics scene
     const double _scale_factor     = 0.4;
@@ -55,26 +57,26 @@ private:
     const QPointF backpos        = {18, 87.5};
     QGraphicsSvgItem* _itemScale1= nullptr;///<
     const QPointF scale1Pos      = {-31, 122};
-    QGraphicsTextItem* _itemLabel1;///<
-    QGraphicsTextItem* _itemLabel2;///<
-    QGraphicsTextItem* _itemLabel3;///<
-    QGraphicsTextItem* _itemLabel4;///<
-    QGraphicsTextItem* _itemLabel5;///<
-    QGraphicsTextItem* _itemLabel6;///<
-    QGraphicsTextItem* _itemLabel7;///<
+    const uint8_t nbLabels = 7;
+    std::vector<QGraphicsTextItem*> _itemLabels;
+
+    const QPointF itemPos= {0, -15};
     QGraphicsSvgItem* _itemFrame;  ///<
     const QPointF framePos= {44, 15};
     QGraphicsRectItem* _itemVfe;     ///<
     QGraphicsSvgItem* _itemVne;      ///<
+    const QPointF _VnePos = {-27,212.5};///<
     QGraphicsTextItem* _itemAirspeed;///<
     const QPointF airSpeedPos= {22, 0};
 
     QBrush _vfeBrush= {QColor(0xff, 0xff, 0xff), Qt::SolidPattern};///<
-    QPen _vfePen    = {_vfeBrush, 1};                              ///<
+    QPen _vfePen    = {_vfeBrush, 1};
+    const QPointF _VfePos = {34,175};///<
+    const int _VfeWidth = 2;
 
     double _airspeed= 0.;///<
     double _vfe     = 0.;///<
-    double _vne     = 0.;///<
+    double _vne     = 100.;///<
 };
 
 }// namespace dg::ui::gauge::pfd
