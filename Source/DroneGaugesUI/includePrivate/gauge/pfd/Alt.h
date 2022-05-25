@@ -8,32 +8,33 @@
 
 #pragma once
 
-#include <QGraphicsScene>
-#include <QGraphicsSvgItem>
+#include "DisplayElement.h"
 
 namespace dg::ui::gauge::pfd {
 /**
  * @brief Class ALT
  */
-class ALT {
+class ALT : public DisplayElement {
 public:
     /**
      * @brief Constructor
      * @param scene The scene where to display
      */
-    explicit ALT(QGraphicsScene* scene);
+    explicit ALT(std::shared_ptr<QGraphicsScene> scene, const QPointF& position= {0, 0}, const double& internalScale= 1.0):
+        DisplayElement(std::move(scene),position,internalScale){}
+
 
     /**
      * @brief Initialization of the display
      * @param scale the initial scal of the view
      */
-    void init(double scale);
+    void init(double scale)override;
 
     /**
      * @brief Update the view port
      * @param scale The update scale of the view
      */
-    void update(double scale);
+    void update(double scale)override;
 
     /**
      * @brief Define the altitude to display
@@ -57,13 +58,9 @@ private:
      */
     void updateVertVelView();
 
-    double _scale                  = 1.0;
-    QGraphicsScene* _scene         = nullptr;///< graphics scene
     const double _originalPixPerAlt= 1.5;
-    const double _scale_factor     = 0.4;
     const double scaleSize         = 150;
 
-    const QPointF position= {120, 0};
     QGraphicsSvgItem* _itemBack;///<
     const QPointF backpos= {20, 87.5};
     QGraphicsSvgItem* _itemScale1;///<

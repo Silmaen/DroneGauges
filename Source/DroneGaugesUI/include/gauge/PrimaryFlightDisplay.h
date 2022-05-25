@@ -18,6 +18,7 @@ namespace pfd {
 class ADI;
 class ALT;
 class ASI;
+class HDG;
 }// namespace pfd
 
 /**
@@ -84,10 +85,11 @@ private:
     void updateScale();
     void updateView();
 
-    QGraphicsScene* _scene= nullptr;///< graphics scene
-    pfd::ADI* adi         = nullptr;
-    pfd::ALT* alt         = nullptr;
-    pfd::ASI* asi         = nullptr;
+    std::shared_ptr<QGraphicsScene> _scene= nullptr;///< graphics scene
+    std::shared_ptr<pfd::ADI> adi         = nullptr;
+    std::shared_ptr<pfd::ALT> alt         = nullptr;
+    std::shared_ptr<pfd::ASI> asi         = nullptr;
+    std::shared_ptr<pfd::HDG> hdg         = nullptr;
 
     double _scaleX  = 1.0;
     double _scaleY  = 1.0;

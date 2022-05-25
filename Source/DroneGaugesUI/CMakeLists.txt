@@ -5,20 +5,23 @@
 add_library(DroneGaugesUi ${DG_LIB_TYPE}
         include/MainWindow.h
         include/gauge/PrimaryFlightDisplay.h
+        includePrivate/gauge/pfd/DisplayElement.h
         includePrivate/gauge/pfd/Adi.h
         includePrivate/gauge/pfd/Alt.h
         includePrivate/gauge/pfd/Asi.h
+        includePrivate/gauge/pfd/Hdg.h
         includePrivate/gauge/pfd/font.h
         includePrivate/gauge/pfd/color.h
         src/MainWindow.cpp
         src/ui/MainWindow.ui
         src/gauge/PrimaryFlightDisplay.cpp
+        src/gauge/pfd//DisplayElement.cpp
         src/gauge/pfd/Adi.cpp
         src/gauge/pfd/Alt.cpp
         src/gauge/pfd/Asi.cpp
+        src/gauge/pfd/Hdg.cpp
         src/gauge/pfd/font.cpp
-        ../../resources/DroneGauges.qrc
-        )
+        ../../resources/DroneGauges.qrc)
 #
 # add dependency to the core lib
 add_dependencies(DroneGaugesUi DroneGaugesCore)

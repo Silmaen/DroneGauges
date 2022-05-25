@@ -13,19 +13,16 @@
 
 namespace dg::ui::gauge::pfd {
 
-ASI::ASI(QGraphicsScene* scene):
-    _scene{scene} {}
-
 void ASI::init(double scale) {
-    _scale   = scale * _scale_factor;
+    DisplayElement::init(scale);
     _itemBack= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_asi_back.svg");
     _itemBack->setCacheMode(QGraphicsItem::NoCache);
     _itemBack->setZValue(70);
-    _itemBack->setScale(_scale);
+    _itemBack->setScale(getScale());
     _itemBack->setTransformOriginPoint(backpos);
-    _itemBack->setPos(-backpos + _scale * position);
+    _itemBack->setPos(-backpos + getScale() * getPosition());
     _itemBack->setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
-    _scene->addItem(_itemBack);
+    getScene()->addItem(_itemBack);
 
     _itemScale1= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_asi_scale.svg", _itemBack);
     _itemScale1->setCacheMode(QGraphicsItem::NoCache);
@@ -45,10 +42,10 @@ void ASI::init(double scale) {
     _itemFrame= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_asi_frame.svg");
     _itemFrame->setCacheMode(QGraphicsItem::NoCache);
     _itemFrame->setZValue(110);
-    _itemFrame->setScale(_scale);
+    _itemFrame->setScale(getScale());
     _itemFrame->setTransformOriginPoint(framePos);
-    _itemFrame->setPos(-framePos + _scale * position);
-    _scene->addItem(_itemFrame);
+    _itemFrame->setPos(-framePos + getScale() * getPosition());
+    getScene()->addItem(_itemFrame);
 
     _itemVfe= new QGraphicsRectItem(_VfePos.x(), _VfePos.y(), _VfeWidth, 0, _itemBack);
     _itemVfe->setBrush(_vfeBrush);
@@ -70,7 +67,7 @@ void ASI::init(double scale) {
 }
 
 void ASI::update(double scale) {
-    _scale= scale * _scale_factor;
+    DisplayElement::update(scale);
 
     _itemAirspeed->setPlainText(QString("%1").arg(_airspeed, 3, 'f', 0, QChar(' ')));
 

@@ -8,20 +8,20 @@
 
 #pragma once
 
-#include <QGraphicsScene>
-#include <QGraphicsSvgItem>
+#include "DisplayElement.h"
 
 namespace dg::ui::gauge::pfd {
 
 /**
  * @brief Class ADI
  */
-class ADI {
+class ADI : public DisplayElement {
 public:
-    explicit ADI(QGraphicsScene *scene);
+    explicit ADI(std::shared_ptr<QGraphicsScene> scene, const QPointF& position= {0, 0}, const double& internalScale= 1.0):
+        DisplayElement(scene,position,internalScale){}
 
-    void init(double scale);
-    void update(double scale);
+    void init(double scale) override;
+    void update(double scale) override;
 
     void setRoll(double roll);
     void setPitch(double pitch);
@@ -31,12 +31,10 @@ private:
     void updateLadderView();
     void updateRollView();
 
-    double _scale= 1.0;
     double _scaleLow= 0.6;
 
     const double _originalPixPerDeg= 3;
 
-    QGraphicsScene *_scene=nullptr;///< graphics scene
     QGraphicsSvgItem  *_itemBack=nullptr;       ///< background
     const double _deltaBack_max= 52.5;
     const double _deltaBack_min= -_deltaBack_max;

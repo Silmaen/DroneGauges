@@ -13,19 +13,17 @@
 
 namespace dg::ui::gauge::pfd {
 
-ALT::ALT(QGraphicsScene* scene):
-    _scene{scene} {}
 
 void ALT::init(double scale) {
-    _scale   = scale * _scale_factor;
+    DisplayElement::init(scale);
     _itemBack= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_alt_back.svg");
     _itemBack->setCacheMode(QGraphicsItem::NoCache);
     _itemBack->setZValue(70);
-    _itemBack->setScale(_scale);
+    _itemBack->setScale(getScale());
     _itemBack->setTransformOriginPoint(backpos);
-    _itemBack->setPos(-backpos + _scale * position);
+    _itemBack->setPos(-backpos + getScale() * getPosition());
     _itemBack->setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
-    _scene->addItem(_itemBack);
+    getScene()->addItem(_itemBack);
 
     _itemScale1= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_alt_scale.svg", _itemBack);
     _itemScale1->setCacheMode(QGraphicsItem::NoCache);
@@ -51,10 +49,10 @@ void ALT::init(double scale) {
     _itemFrame= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_alt_frame.svg");
     _itemFrame->setCacheMode(QGraphicsItem::NoCache);
     _itemFrame->setZValue(110);
-    _itemFrame->setScale(_scale);
+    _itemFrame->setScale(getScale());
     _itemFrame->setTransformOriginPoint(framePos);
-    _itemFrame->setPos(-framePos + _scale * position);
-    _scene->addItem(_itemFrame);
+    _itemFrame->setPos(-framePos + getScale() * getPosition());
+    getScene()->addItem(_itemFrame);
 
     _itemAltitude= new QGraphicsTextItem(QString("    0"), _itemFrame);
     _itemAltitude->setCacheMode(QGraphicsItem::NoCache);
@@ -65,10 +63,10 @@ void ALT::init(double scale) {
     _itemScale= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_vsi_scale.svg");
     _itemScale->setCacheMode(QGraphicsItem::NoCache);
     _itemScale->setZValue(70);
-    _itemScale->setScale(_scale);
+    _itemScale->setScale(getScale());
     _itemScale->setTransformOriginPoint(scalePos);
-    _itemScale->setPos(-scalePos + _scale * (position + scaleOffset));
-    _scene->addItem(_itemScale);
+    _itemScale->setPos(-scalePos + getScale() * (getPosition() + scaleOffset));
+    getScene()->addItem(_itemScale);
 
     _itemMarker= new QGraphicsRectItem(_originalMarkerPos.x(), _originalMarkerPos.y(), _originalMarkerWidth, 0, _itemScale);
     _itemMarker->setBrush(_markerBrush);
@@ -76,7 +74,7 @@ void ALT::init(double scale) {
 }
 
 void ALT::update(double scale) {
-    _scale= scale * _scale_factor;
+    DisplayElement::update(scale);
     updateAltView();
     updateVertVelView();
 }

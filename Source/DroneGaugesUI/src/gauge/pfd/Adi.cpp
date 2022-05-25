@@ -15,46 +15,43 @@
 
 namespace dg::ui::gauge::pfd {
 
-ADI::ADI(QGraphicsScene* scene):
-    _scene(scene) {
-}
 
 void ADI::init(double scale) {
-    _scale   = scale;
+    DisplayElement::init(scale);
     _itemBack= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_back.svg");
     _itemBack->setCacheMode(QGraphicsItem::NoCache);
     _itemBack->setZValue(0);
-    _itemBack->setScale(_scale);
+    _itemBack->setScale(getScale());
     _itemBack->setTransformOriginPoint(_originalBackPos);
     _itemBack->moveBy(-_originalBackPos.x(), -_originalBackPos.y());
-    _scene->addItem(_itemBack);
+    getScene()->addItem(_itemBack);
 
     _itemLadd= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_ladd.svg");
     _itemLadd->setCacheMode(QGraphicsItem::NoCache);
     _itemLadd->setZValue(10);
-    _itemLadd->setScale(_scale * _scaleLow);
+    _itemLadd->setScale(getScale() * _scaleLow);
     _itemLadd->setTransformOriginPoint(_originalLaddPos);
     _itemLadd->moveBy(-_originalLaddPos.x(), -_originalLaddPos.y());
-    _scene->addItem(_itemLadd);
+    getScene()->addItem(_itemLadd);
 
     _itemRoll= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_roll.svg");
     _itemRoll->setCacheMode(QGraphicsItem::NoCache);
     _itemRoll->setZValue(30);
-    _itemRoll->setScale(_scale * _scaleLow);
+    _itemRoll->setScale(getScale() * _scaleLow);
     _itemRoll->setTransformOriginPoint(_originalRollPos);
     _itemRoll->moveBy(-_originalRollPos.x(), -_originalRollPos.y());
-    _scene->addItem(_itemRoll);
+    getScene()->addItem(_itemRoll);
 
     _itemMask= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_mask.svg");
     _itemMask->setCacheMode(QGraphicsItem::NoCache);
     _itemMask->setZValue(60);
-    _itemMask->setScale(_scale * _scaleLow);
-    _itemMask->moveBy(-_scale * _scaleLow * _originalMaskPos.x(), -_scale * _scaleLow * _originalMaskPos.y());
-    _scene->addItem(_itemMask);
+    _itemMask->setScale(getScale() * _scaleLow);
+    _itemMask->moveBy(-getScale() * _scaleLow * _originalMaskPos.x(), -getScale() * _scaleLow * _originalMaskPos.y());
+    getScene()->addItem(_itemMask);
 }
 
 void ADI::update(double scale) {
-    _scale   = scale;
+    DisplayElement::update(scale);
     updateBackView();
     updateLadderView();
     updateRollView();
@@ -64,7 +61,7 @@ void ADI::updateBackView(){
     double roll_rad= M_PI * _roll / 180.0;
     _itemBack->setRotation(-_roll);
     double deltaBack= core::base::clamp(_originalPixPerDeg * _pitch, _deltaBack_min, _deltaBack_max);
-    deltaBack*= _scale * _scaleLow;
+    deltaBack*= getScale() * _scaleLow;
     QPointF roll(std::sin(roll_rad), std::cos(roll_rad));
     roll*= deltaBack;
     roll-= _originalBackPos;
@@ -76,7 +73,7 @@ void ADI::updateLadderView(){
     double roll_rad= M_PI * _roll / 180.0;
     _itemLadd->setRotation(-_roll);
     QPointF roll(std::sin(roll_rad), std::cos(roll_rad));
-    roll*= _scale * _scaleLow * delta;
+    roll*= getScale() * _scaleLow * delta;
     roll-= _originalLaddPos;
     _itemLadd->setPos(roll);
 }

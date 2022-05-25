@@ -14,5 +14,8 @@
     <file>Widgets/PrimaryFlightDisplay/pfdd_asi_frame.svg</file>
     <file>Widgets/PrimaryFlightDisplay/pfdd_asi_scale.svg</file>
     <file>Widgets/PrimaryFlightDisplay/pfdd_asi_vne.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_hdg_back.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_hdg_scale.svg</file>
+    <file>Widgets/PrimaryFlightDisplay/pfdd_hdg_frame.svg</file>
   </qresource>
 </RCC>

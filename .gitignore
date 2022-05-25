@@ -34,7 +34,11 @@ cmake-*
 *.exe
 *.out
 *.app
+*.pdb
+
+*.user
 
 cmake-*
 .idea
 Documentation/build
+**/build-*

@@ -12,26 +12,26 @@
 #include "gauge/pfd/Adi.h"
 #include "gauge/pfd/Alt.h"
 #include "gauge/pfd/Asi.h"
+#include "gauge/pfd/Hdg.h"
 #include <gauge/moc_PrimaryFlightDisplay.cpp>
 #include <iostream>
 
 namespace dg::ui::gauge {
 
 PrimaryFlightDisplay::PrimaryFlightDisplay(QWidget* parent):
-    QGraphicsView(parent), _scene(new QGraphicsScene(this)),
-    adi(new pfd::ADI(_scene)), alt(new pfd::ALT(_scene)), asi(new pfd::ASI(_scene)) {
-    setScene(_scene);
+    QGraphicsView(parent),
+    _scene(std::make_shared<QGraphicsScene>(new QGraphicsScene(this))),
+    adi(std::make_shared<pfd::ADI>(_scene)),
+    alt(std::make_shared<pfd::ALT>(_scene, QPointF{120, 0}, 0.4)),
+    asi(std::make_shared<pfd::ASI>(_scene, QPointF{-120, 0}, 0.4)),
+    hdg{std::make_shared<pfd::HDG>(_scene, QPointF{0, -135},0.4)}{
+    setScene(_scene.get());
     _scene->clear();
     init();
 }
 PrimaryFlightDisplay::~PrimaryFlightDisplay() {
     if(_scene != nullptr) {
         _scene->clear();
-        delete _scene;
-        _scene= nullptr;
-        delete adi;
-        delete alt;
-        delete asi;
     }
 }
 
@@ -58,7 +58,9 @@ void PrimaryFlightDisplay::setPitch(int pitch) {
     redraw();
 }
 
-void PrimaryFlightDisplay::setYaw(int) {
+void PrimaryFlightDisplay::setYaw(int yaw) {
+    hdg->setYaw(yaw);
+    redraw();
 }
 
 void PrimaryFlightDisplay::setRoll(int roll) {
@@ -86,6 +88,7 @@ void PrimaryFlightDisplay::init() {
     adi->init(_scaleMax);
     alt->init(_scaleMax);
     asi->init(_scaleMax);
+    hdg->init(_scaleMax);
     updateView();
 }
 void PrimaryFlightDisplay::updateScale() {
@@ -99,6 +102,7 @@ void PrimaryFlightDisplay::updateView() {
     adi->update(_scaleMax);
     alt->update(_scaleMax);
     asi->update(_scaleMax);
+    hdg->update(_scaleMax);
     _scene->update();
     centerOn(0, 0);
 }
