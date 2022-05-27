@@ -23,9 +23,12 @@ public:
      * @brief Base Constructor
      * @param scene The scene where to draw
      */
-    explicit DisplayElement(std::shared_ptr<QGraphicsScene> scene, const QPointF& position= {0, 0}, const double& internalScale= 1.0):
-        _scene{std::move(scene)}, _position{position}, _internalScale{internalScale} {}
+    explicit DisplayElement(std::shared_ptr<QGraphicsScene> scene, const QPointF& position= {0, 0}, const double& internalScale= 1.0);
 
+    /**
+     * @brief Destructor
+     */
+    virtual ~DisplayElement();
     /**
      * @brief Initialization of the display
      * @param scale The initial scal of the view
@@ -46,7 +49,7 @@ public:
      * @brief Get the scene where to draw
      * @return The drawing scene
      */
-    const auto getScene() { return _scene; }
+    auto getScene() { return _scene; }
 
     /**
      * @brief Definition of the internal scale of this element
@@ -55,7 +58,7 @@ public:
     void setInternalScale(const double& scale) {
         _internalScale= scale;
         init(_scale);
-    };
+    }
 
     /**
      * @brief Get the overall scale of this element

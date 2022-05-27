@@ -47,15 +47,15 @@ void ASI::init(double scale) {
     _itemFrame->setPos(-framePos + getScale() * getPosition());
     getScene()->addItem(_itemFrame);
 
-    _itemVfe= new QGraphicsRectItem(_VfePos.x(), _VfePos.y(), _VfeWidth, 0, _itemBack);
+    _itemVfe= new QGraphicsRectItem(_vfePos.x(), _vfePos.y(), _vfeWidth, 0, _itemBack);
     _itemVfe->setBrush(_vfeBrush);
     _itemVfe->setPen(_vfePen);
 
     _itemVne= new QGraphicsSvgItem(":/Widgets/PrimaryFlightDisplay/pfdd_asi_vne.svg", _itemBack);
     _itemVne->setCacheMode(QGraphicsItem::NoCache);
     _itemVne->setZValue(90);
-    _itemVne->setTransformOriginPoint(_VnePos);
-    _itemVne->setPos(-_VnePos);
+    _itemVne->setTransformOriginPoint(vnePos);
+    _itemVne->setPos(-vnePos);
 
     _itemAirspeed= new QGraphicsTextItem(QString("000"), _itemFrame);
     _itemAirspeed->setCacheMode(QGraphicsItem::NoCache);
@@ -109,9 +109,9 @@ void ASI::update(double scale) {
     }
 
     double height= _originalPixPerSpd * (_vfe - _airspeed + 58.5);
-    _itemVfe->setRect(_VfePos.x(), _VfePos.y()-height, _VfeWidth, height);
+    _itemVfe->setRect(_vfePos.x(), _vfePos.y() - height, _vfeWidth, height);
     QPointF off= {0, _originalPixPerSpd * (_airspeed - _vne)};
-    _itemVne->setPos(-_VnePos + off);
+    _itemVne->setPos(-vnePos + off);
 }
 
 void ASI::setVelocity(double velocity) {

@@ -8,11 +8,11 @@
 
 #include "gauge/pfd/DisplayElement.h"
 
-namespace dg {
-namespace ui {
-namespace gauge {
-namespace pfd {
+namespace dg::ui::gauge::pfd {
+DisplayElement::DisplayElement(std::shared_ptr<QGraphicsScene> scene, const QPointF& position, const double& internalScale):
+    _scene{std::move(scene)}, _position{position}, _internalScale{internalScale} {}
+
+DisplayElement::~DisplayElement() {
 }
-}
-}
+
 }// namespace dg::ui::gauge::pfd

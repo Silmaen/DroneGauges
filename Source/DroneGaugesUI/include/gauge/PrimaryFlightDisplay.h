@@ -96,7 +96,7 @@ private:
     double _scaleMax= 1.0;
 
     const int _originalHeight= 120;
-    const int _originalWidth = 120;
+    const int _originalWidth = 140;
 };
 
 }// namespace dg::ui::gauge

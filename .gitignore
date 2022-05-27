@@ -42,3 +42,4 @@ cmake-*
 .idea
 Documentation/build
 **/build-*
+Library/mavsdk

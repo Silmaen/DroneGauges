@@ -8,9 +8,10 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QTimer>
 
 namespace Ui {
-    class MainWindow;
+class MainWindow;
 }
 
 /**
@@ -21,21 +22,37 @@ namespace dg::ui {
 /**
  * @brief Classe définissant les opérations de la page principale
  */
-class MainWindow : public QMainWindow {
+class MainWindow: public QMainWindow {
     Q_OBJECT
 public:
     /**
      * @brief Constructeur.
      * @param parent Le widget Parent.
      */
-    explicit MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(QWidget* parent= nullptr);
     /**
      * @brief Destructeur.
      */
     ~MainWindow() override;
+public slots:
+    /**
+     * @brief Action on the connect button
+     */
+    void ConnectPushed();
+    /**
+     * @brief Action on the send button
+     */
+    void SendPushed();
+    /**
+     * @brief Action each timer tick.
+     */
+    void timerTick();
+
 private:
     /// Lien vers la page UI.
     Ui::MainWindow* ui;
+    /// The timer
+    std::shared_ptr<QTimer> timer;
 };
 
 }// namespace dg::ui

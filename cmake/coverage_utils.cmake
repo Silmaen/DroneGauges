@@ -2,6 +2,7 @@
 # coverage helper functions
 #
 function(enable_test_report)
+    include(FetchContent)
     message(STATUS "** Fetching Google test")
     FetchContent_Declare(
             googletest

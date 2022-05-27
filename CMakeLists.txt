@@ -13,11 +13,7 @@ project(DroneGauges VERSION 1.0
 # ----------------------------------------------------------------------------------------------------------------------
 # Base Definitions
 
-include(CMakeDependentOption)           # This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
-include(GNUInstallDirs)                 # This will define the default values for installation directories (all platforms even if named GNU)
-include(InstallRequiredSystemLibraries) # Tell CMake that the `install` target needs to install required system libraries (eg: Windows SDK)
 include(CMakePackageConfigHelpers)      # Helper to create relocatable packages
-include(FetchContent)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake") # Make our cmake scripts available
 
 include(compiler_config)
